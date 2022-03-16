@@ -1,0 +1,22 @@
+var country = ee.FeatureCollection("FAO/GAUL/2015/level0");
+// Select the country we need
+var mask = country.filter(ee.Filter.eq("ADM0_NAME",'China' ));
+// Import Population Data
+var dataset = ee.ImageCollection('JRC/GHSL/P2016/POP_GPW_GLOBE_V1')
+                  .filter(ee.Filter.date('2015-01-01', '2015-12-31'))
+// Create a clip function
+function clp(img) {
+  return img.clip(mask)
+}
+// clip the dataset
+var dataset = dataset.map(clp);
+              
+
+var populationCount = dataset.select('population_count');
+var populationCountVis = {
+  min: 0.0,
+  max: 200.0,
+  palette: ['060606', '337663', '337663', 'ffffff'],
+};
+Map.setCenter(78.22, 22.59, 3);
+Map.addLayer(populationCount, populationCountVis, 'Population Count');
