@@ -11,7 +11,7 @@ function clp(img) {
 // clip the dataset
 var dataset = dataset.map(clp);
               
-
+// select population count
 var populationCount = dataset.select('population_count');
 var populationCountVis = {
   min: 0.0,
